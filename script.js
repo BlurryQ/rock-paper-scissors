@@ -3,17 +3,17 @@ let deBug = true;
 if(deBug == true) console.log("JS is running");
 
 //create a function to create a random number
-function generateNumber(n) {
-    getNumber = Math.floor(Math.random() * n);
-    if(deBug == true) console.log("I have generated " + getNumber);
-    return getNumber;
+function getNumber(n) {
+    randomNumber = Math.floor(Math.random() * n);
+    if(deBug == true) console.log("I have generated " + randomNumber);
+    return randomNumber;
 }
 
 
 //create a function to convert number into choice
 function getComputerChoice() {
     //generate random number
-    let x = generateNumber(3);
+    let x = getNumber(3);
     //change number into choice
     switch(x)
         {
@@ -34,7 +34,7 @@ function getComputerChoice() {
 }
 
 
-function playerSelection() {
+function getPlayerChoice() {
         //prompt for text entry
         enterChoice = prompt("Choose wisely: Rock, paper or scissors");
         //covert to lower case
@@ -78,7 +78,7 @@ function playRound (player, computer) {
 }
 
 
-function whoWins(player, computer, result) {
+function getWinner(player, computer, result) {
     //make text pretty
     playerResult = makeTextPretty(player);
     //display results
@@ -128,7 +128,7 @@ function game() {
     for(round = 1; round <= 5; round++)
         {
             if(deBug == true) console.log("round " + round + " has started")
-            playerChoice = playerSelection();
+            playerChoice = getPlayerChoice();
             //if valid choice
             if (!(playerChoice == null))
                 {
@@ -136,7 +136,7 @@ function game() {
                     computerChoice = getComputerChoice();
                     combatResult = playRound(playerChoice,computerChoice);
                     //find out the winner
-                    whoWins(playerChoice,computerChoice,combatResult);
+                    getWinner(playerChoice,computerChoice,combatResult);
                     if(deBug == true) console.log("round " + round + " result is " + combatResult)
                     if(combatResult == "win")
                         {
