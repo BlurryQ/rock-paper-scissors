@@ -101,7 +101,7 @@ function capitaliseFirstLetter(string)
             if(deBug == true) console.log("I need to remove " + lengthToCut + " characters")
         let firstLetter = string.slice(0,1);
         let remainingString = string.slice(lengthToCut);
-            if(deBug == true) console.log("sliced " + firstLetter + " from " + string + " leaving " + text);
+            if(deBug == true) console.log("sliced " + firstLetter + " from " + string + " leaving " + remainingString);
         let capitalised = firstLetter.toUpperCase();
             if(deBug == true) console.log("turned " + firstLetter + " to " + capitalised);
         let prettyWord = capitalised + remainingString
@@ -143,7 +143,7 @@ function game()
                                     if(deBug == true) console.log("Player lost. Result now: Player: " + playerScore + " // Computer: " + computerScore)
                             }
                         //update player with score
-                        alert("Round " + round + " Results are: Player: " + playerScore + " vs Computer: " + computerScore);
+                        alert("Round " + round + " results are: Player: " + playerScore + " vs Computer: " + computerScore);
                     }
                 else
                     {
