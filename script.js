@@ -177,6 +177,17 @@ function game() {
                             alert("The computer has won. Better luck next time.");  
                         }
                 }
+            if(round == 5 && playerScore != 3 && computerScore != 3)
+                {
+                    if(playerScore > computerScore)
+                        {
+                            alert("Well done, you are victorious!!");  
+                        }
+                    else
+                        {
+                            alert("The computer has won. Better luck next time."); 
+                        }
+                }
         }
     //if they would like to play again
     let again = confirm("Would you like to play again?");
