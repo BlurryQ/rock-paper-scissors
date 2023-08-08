@@ -14,7 +14,6 @@ function generateNumber(n) {
 function getComputerChoice() {
     //generate random number
     let x = generateNumber(3);
-    if(deBug == true) console.log("I have received the number " + x)
     //change number into choice
     switch(x)
         {
@@ -56,7 +55,7 @@ function playerSelection() {
     }
 
 
-function combat (player, computer) {
+function playRound (player, computer) {
     //win conditions
     if(deBug == true) console.log((player + " vs " + computer))
     if(player == "rock" && computer == "scissors" || player == "paper" && computer == "rock" || player == "scissors" && computer == "paper")
@@ -89,7 +88,7 @@ function whoWins(player, computer, result) {
             if(deBug == true) console.log("player wins!!") 
             break;
             case "lose": alert(playerResult + " vs " + computer + ": Uh oh, you lose!!")
-            if(deBug == true) console.log("player wins!!")
+            if(deBug == true) console.log("player loses")
             break;
             case "draw": alert(playerResult + " vs " + computer + ": This is a draw.")
             if(deBug == true) console.log("This is a draw")
@@ -102,6 +101,7 @@ function makeTextPretty(string) {
     stringLength = string.length;
     //calculate the rest of the word to cut
     toCut = 1 - stringLength
+    if(deBug == true) console.groupCollapsed("Pretty Text");
     if(deBug == true) console.log("string is " + stringLength + " characters")
     if(deBug == true) console.log("I need to remove " + toCut + " characters")
     //slice first letter & rest of word
@@ -115,20 +115,76 @@ function makeTextPretty(string) {
     prettyWord = capitalised + text
     //return pretty text
     if(deBug == true) console.log(prettyWord);
+    if(deBug == true) console.groupEnd("Pretty Text");
     return prettyWord;
 }
 
-
-playerChoice = playerSelection();
-    if (!(playerChoice == null))
+function game() {
+    //declare round number
+    round = 1;
+    playerScore = 0;
+    computerScore = 0;
+    //create loop to play 5 games
+    for(round = 1; round <= 5; round++)
         {
-            computerChoice = getComputerChoice();
-            combatResult = combat(playerChoice,computerChoice);
-            whoWins(playerChoice,computerChoice,combatResult);
+            if(deBug == true) console.log("round " + round + " has started")
+            playerChoice = playerSelection();
+            //if valid choice
+            if (!(playerChoice == null))
+                {
+                    //get choices
+                    computerChoice = getComputerChoice();
+                    combatResult = playRound(playerChoice,computerChoice);
+                    //find out the winner
+                    whoWins(playerChoice,computerChoice,combatResult);
+                    if(deBug == true) console.log("round " + round + " result is " + combatResult)
+                    if(combatResult == "win")
+                        {
+                            //if player wins, add to score
+                            playerScore = playerScore + 1
+                            computerScore = computerScore
+                            if(deBug == true) console.log("Player won. Result now: Player: " + playerScore + " // Computer: " + computerScore)
+                        }
+                    else if(combatResult == "lose")
+                        {
+                            //if computer wins, add to score
+                            playerScore = playerScore
+                            computerScore = computerScore + 1
+                            if(deBug == true) console.log("Player lost. Result now: Player: " + playerScore + " // Computer: " + computerScore)
+                        }
+                    //update player with score
+                    alert("Player: " + playerScore + " vs Computer: " + computerScore);
+                }
+            else
+            //if invalid choice
+                {
+                    if(deBug == true) console.log("round error, need to replay round " + round);
+                    round--
+                    if(deBug == true) console.log("round reset")
+                }
+            //if either player has won 3 rounds
+            if (playerScore == 3 || computerScore == 3)
+                {
+                    //stop the game
+                    round = 5;
+                    //turn in final results
+                    if(playerScore == 3)
+                        {
+                            alert("Well done, you are victorious!!");
+                        }
+                    else
+                        {
+                            alert("The computer has won. Better luck next time.");  
+                        }
+                }
         }
-    else
+    //if they would like to play again
+    let again = confirm("Would you like to play again?");
+
+    if(again == true)
         {
-            alert("Please refresh this page and try again")
+            game();
         }
+}
 
-
+game();
