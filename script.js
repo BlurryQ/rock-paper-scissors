@@ -1,94 +1,98 @@
-let deBug = false;
+deBug = false;
+    if(deBug == true) console.log("JS debug is running");
 
-    if(deBug == true) console.log("JS is running");
+/* ---------- Code to run ---------- */
 
-//create a random number for computer choice
-function getNumber(n) 
-    {
-        randomNumber = Math.floor(Math.random() * n);
-            if(deBug == true) console.log("I have generated " + randomNumber);
-        return randomNumber;
+const roundNumber = document.getElementById("roundNumber");
+const playerScoreBoard = document.getElementById("playerScore");
+const computerScoreBoard = document.getElementById("computerScore");
+const info1 = document.getElementById("info1");
+const info2 = document.getElementById("info2");
+
+let round = 1,
+playerScore = 0,
+computerScore = 0;
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+  button.addEventListener('click', () => {
+    playGame(button.id);
+  });
+});
+
+
+/* ---------- Functions ---------- */
+
+function getRandomNumber(n) {
+    randomNumber = Math.floor(Math.random() * n);
+    return randomNumber;
+}
+
+function getComputerChoice() {
+    let x = getRandomNumber(3);
+    switch(x)
+        {
+            case 0: choice = "rock"
+                    return choice;
+            case 1: choice = "paper"
+                    return choice;
+            case 2: choice = "scissors"
+                    return choice;
+        }
+}
+
+function playGame(choice) {
+    info2.firstChild.nodeValue = ("");
+    playRound(choice)
+    //if either player has won 3 rounds (best of 5) we want to stop the game
+    if (playerScore == 3 || (round == 6 && playerScore > computerScore))
+        {
+            info1.firstChild.nodeValue = ("Well done, you are victorious!!");
+            info2.firstChild.nodeValue = ("Care to play again?");
+            resetGame();  
+        }
+    else if(computerScore == 3 || (round == 6 && computerScore >= playerScore))
+        {
+            info1.firstChild.nodeValue = ("The computer has won. Better luck next time."); 
+            info2.firstChild.nodeValue = ("Care to play again?");
+            resetGame();  
+        }
     }
 
-
-//use random number to create choice
-function getComputerChoice() 
-    {
-        let x = getNumber(3);
-        switch(x)
-            {
-                case 0: choice = "rock"
-                            if(deBug == true) console.log("I have chosen " + choice);
-                        return choice;
-                        break;
-                case 1: choice = "paper"
-                            if(deBug == true) console.log("I have chosen " + choice);
-                        return choice;
-                        break;
-                case 2: choice = "scissors"
-                            if(deBug == true) console.log("I have chosen " + choice);
-                        return choice;
-                        break;
-            }
+function playRound(choice) {
+    let computerChoice = getComputerChoice();
+    let roundResult = getRoundResults(choice,computerChoice);
+    declareRoundResult(choice,computerChoice,roundResult);
+    updateScore(roundResult) ;
+    round = round + 1
     }
 
-
-function getPlayerChoice() 
+function getRoundResults (player, computer) {
+if(player == "rock" && computer == "scissors" || player == "paper" && computer == "rock" || player == "scissors" && computer == "paper")
     {
-        let enterChoice = prompt("Choose wisely: Rock, paper or scissors");
-        let choiceLowercase = enterChoice.toLowerCase();
-            if(deBug == true) console.log("Player has chosen " + choiceLowercase);
-        if(!(choiceLowercase == "rock" || choiceLowercase == "paper" || choiceLowercase == "scissors"))
-            {
-                alert("You have not entered a valid option!!");
-                    if(deBug == true) console.log("ALERT!! Incorrect input by player")
-                return null;
-            }
-        else
-            {
-                    if(deBug == true) console.log("Player has input succesfully")
-                return choiceLowercase;
-            }
+        return "win";
     }
-
-
-//give instruction on what denotes which outcome
-function playRound (player, computer) 
+else if(player == "rock" && computer == "paper" || player == "paper" && computer == "scissors" || player == "scissors" && computer == "rock")
     {
-            if(deBug == true) console.log((player + " vs " + computer))
-        if(player == "rock" && computer == "scissors" || player == "paper" && computer == "rock" || player == "scissors" && computer == "paper")
-            {
-                    if(deBug == true) console.log("player wins")
-                return "win";
-            }
-        else if(player == "rock" && computer == "paper" || player == "paper" && computer == "scissors" || player == "scissors" && computer == "rock")
-            {
-                    if(deBug == true) console.log("player loses")
-                return "lose";
-            }
-        else if(player == "rock" && computer == "rock" || player == "paper" && computer == "paper" || player == "scissors" && computer == "scissors")
-            {
-                    if(deBug == true) console.log("player draw")
-                return "draw";
-            }
+        return "lose";
     }
-
-
-function alertRoundResult(player, computer, result) 
+else if(player == "rock" && computer == "rock" || player == "paper" && computer == "paper" || player == "scissors" && computer == "scissors")
     {
-        let playerResult = capitaliseFirstLetter(player);
-        switch(result)
-            {
-                case "win": alert(playerResult + " vs " + computer + ": Congratulations, you win!!")
-                                if(deBug == true) console.log("player wins!!") 
-                            break;
-                case "lose": alert(playerResult + " vs " + computer + ": Uh oh, you lose!!")
-                                if(deBug == true) console.log("player loses")
-                            break;
-                case "draw": alert(playerResult + " vs " + computer + ": This is a draw.")
-                                if(deBug == true) console.log("This is a draw")
-                            break;
-            }
+        return "draw";
+    }
+}
+
+function declareRoundResult(player, computer, result) {
+player = capitaliseFirstLetter(player)
+switch(result)
+    {
+        case "win": info1.firstChild.nodeValue = ("" + player + " vs " + computer + ": Congratulations, you win!!")
+                    break;
+        case "lose": info1.firstChild.nodeValue = ("" + player + " vs " + computer + ": Uh oh, you lose!!");
+                    break;
+        case "draw": info1.firstChild.nodeValue = ("" + player + " vs " + computer + ": This is a draw.");
+                    break;
+    }
 }
 
 function capitaliseFirstLetter(string) 
@@ -96,93 +100,34 @@ function capitaliseFirstLetter(string)
         //calculate text length so it slices correctly for both first letter and remainder of string
         let stringLength = string.length;
         let lengthToCut = 1 - stringLength
-            if(deBug == true) console.groupCollapsed("Pretty Text");
-            if(deBug == true) console.log("string is " + stringLength + " characters")
-            if(deBug == true) console.log("I need to remove " + lengthToCut + " characters")
         let firstLetter = string.slice(0,1);
         let remainingString = string.slice(lengthToCut);
-            if(deBug == true) console.log("sliced " + firstLetter + " from " + string + " leaving " + remainingString);
         let capitalised = firstLetter.toUpperCase();
-            if(deBug == true) console.log("turned " + firstLetter + " to " + capitalised);
         let prettyWord = capitalised + remainingString
-            if(deBug == true) console.log(prettyWord);
-            if(deBug == true) console.groupEnd("Pretty Text");
         return prettyWord;
     }
 
-function game() 
-    {
-        //declare round number & scores
-        let round = 1;
-        let playerScore = 0;
-        let computerScore = 0;
-        //create loop to play 5 games
-        for(round = 1; round <= 5; round++)
-            {
-                    if(deBug == true) console.log("round " + round + " has started")
-                let playerChoice = getPlayerChoice();
-                //check player choice is valid
-                if (!(playerChoice == null))
-                    {
-                        let computerChoice = getComputerChoice();
-                        let roundResult = playRound(playerChoice,computerChoice);
-                        alertRoundResult(playerChoice,computerChoice,roundResult);
-                            if(deBug == true) console.log("round " + round + " result is " + roundResult)
-                        if(roundResult == "win")
-                            {
-                                //if player wins, add to score
-                                playerScore = playerScore + 1
-                                computerScore = computerScore
-                                    if(deBug == true) console.log("Player won. Result now: Player: " + playerScore + " // Computer: " + computerScore)
-                            }
-                        else if(roundResult == "lose")
-                            {
-                                //if computer wins, add to score
-                                playerScore = playerScore
-                                computerScore = computerScore + 1
-                                    if(deBug == true) console.log("Player lost. Result now: Player: " + playerScore + " // Computer: " + computerScore)
-                            }
-                        //update player with score
-                        alert("Round " + round + " results are: Player: " + playerScore + " vs Computer: " + computerScore);
-                    }
-                else
-                    {
-                            if(deBug == true) console.log("round error, need to replay round " + round);
-                        round--
-                            if(deBug == true) console.log("round reset")
-                    }
-                //if either player has won 3 rounds (best of 5) we want to stop the game
-                if (playerScore == 3 || computerScore == 3)
-                    {
-                        round = 5;
-                        if(playerScore == 3)
-                            {
-                                alert("Well done, you are victorious!!");
-                            }
-                        else
-                            {
-                                alert("The computer has won. Better luck next time.");  
-                            }
-                    }
-                if(round == 5 && playerScore != 3 && computerScore != 3)
-                    {
-                        if(playerScore > computerScore)
-                            {
-                                alert("Well done, you are victorious!!");  
-                            }
-                        else
-                            {
-                                alert("The computer has won. Better luck next time."); 
-                            }
-                    }
-            }
-        //if they would like to play again
-        let again = confirm("Would you like to play again?");
+function updateScore(roundResult) {
+    if(roundResult == "win")
+        {
+            playerScore = playerScore + 1
+            computerScore = computerScore
+        }
+    else if(roundResult == "lose")
+        {
+            playerScore = playerScore
+            computerScore = computerScore + 1
+        }
+    
+        console.log("Round " + round + " results are: Player: " + playerScore + " vs Computer: " + computerScore);
+       
+        roundNumber.firstChild.nodeValue = ("Round: " + round);
+        playerScoreBoard.firstChild.nodeValue = ("Player: " + playerScore);
+        computerScoreBoard.firstChild.nodeValue = ("Computer: " + computerScore);
+}
 
-        if(again == true)
-            {
-                game();
-            }
-    }
-
-game();
+function resetGame() {
+    round = 1,
+    playerScore = 0,
+    computerScore = 0;
+}

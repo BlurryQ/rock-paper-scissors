@@ -1,0 +1,39 @@
+* {
+    background: black;
+    color: white;
+    /*border: 1px solid red;*/
+}
+
+#container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button {
+    border-radius: 10px;
+    font-size: 50px;
+}
+
+#roundNumber {
+    display: flex;
+    justify-content: center;
+}
+
+#scoreBoard {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#info,
+#info1,
+#info2 {
+    padding: 20px 0px;
+    font-size: 20px;
+}
+
+#info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
