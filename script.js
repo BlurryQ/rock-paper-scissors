@@ -1,27 +1,56 @@
-deBug = false;
-    if(deBug == true) console.log("JS debug is running");
-
 /* ---------- Code to run ---------- */
 
 const roundNumber = document.getElementById("roundNumber");
 const playerScoreBoard = document.getElementById("playerScore");
 const computerScoreBoard = document.getElementById("computerScore");
-const info1 = document.getElementById("info1");
-const info2 = document.getElementById("info2");
+const info = document.getElementById("info");
+
+info1 = document.createElement('div');
+info1.classList.add("info");
+info1.textContent = `The machines have risen up and overthrown the world!!`;
+info.appendChild(info1);
+
+info2 = document.createElement('div');
+info2.classList.add("info");
+info2.textContent = `They will only leave if you beat them at a "best of 5" game of rock, paper, scissors.`;
+info.appendChild(info2);
+
+info3 = document.createElement('div');
+info3.classList.add("info");
+info3.textContent = `Click on "Round" to change from "best of 5" to unlimited`;
+info.appendChild(info3);
 
 let round = 1,
 playerScore = 0,
-computerScore = 0;
+computerScore = 0,
+noRoundLimit = false;
+console.log("No round limit off")
+
+roundNumber.addEventListener('click', () => {
+    loop();
+});
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
-    playGame(button.id);
-  });
-});
-
+    let choice = button.id;
+    playGame(choice);
+    }); 
+});  
 
 /* ---------- Functions ---------- */
+
+function loop() {
+    if (noRoundLimit == true) {
+        noRoundLimit = false;
+        roundNumber.style.color = 'red';
+        roundNumber.textContent = "Round: 0";
+        resetGame(); 
+    } else {
+        noRoundLimit = true;
+        roundNumber.style.color = 'green';
+        roundNumber.textContent = "Unlimited Round: " + (round-1); }
+}
 
 function getRandomNumber(n) {
     randomNumber = Math.floor(Math.random() * n);
@@ -42,19 +71,32 @@ function getComputerChoice() {
 }
 
 function playGame(choice) {
-    info2.firstChild.nodeValue = ("");
+    info2.replaceChildren();
+    info3.replaceChildren();
     playRound(choice)
+    if(noRoundLimit == true) {
+        return;
+    }
     //if either player has won 3 rounds (best of 5) we want to stop the game
-    if (playerScore == 3 || (round == 6 && playerScore > computerScore))
+    if (round == 6 && playerScore == computerScore)
         {
-            info1.firstChild.nodeValue = ("Well done, you are victorious!!");
-            info2.firstChild.nodeValue = ("Care to play again?");
+            info1.replaceChildren("You have tied... but there can only be one winner...");
+            info2.replaceChildren("Time to play again?");
+            info3.replaceChildren(`Or click on "Round" to play unlimited rounds.`);
+            resetGame();  
+        }
+    else if (playerScore == 3 || (round == 6 && playerScore > computerScore))
+        {
+            info1.replaceChildren("Well done, you are victorious!!");
+            info2.replaceChildren("Care to play again?");
+            info3.replaceChildren(`Or click on "Round" to play unlimited rounds.`);
             resetGame();  
         }
     else if(computerScore == 3 || (round == 6 && computerScore >= playerScore))
         {
-            info1.firstChild.nodeValue = ("The computer has won. Better luck next time."); 
-            info2.firstChild.nodeValue = ("Care to play again?");
+            info1.replaceChildren("The computer has won. Better luck next time."); 
+            info2.replaceChildren("Care to play again?");
+            info3.replaceChildren(`Or click on "Round" to play unlimited rounds.`);
             resetGame();  
         }
     }
@@ -121,9 +163,9 @@ function updateScore(roundResult) {
     
         console.log("Round " + round + " results are: Player: " + playerScore + " vs Computer: " + computerScore);
        
-        roundNumber.firstChild.nodeValue = ("Round: " + round);
-        playerScoreBoard.firstChild.nodeValue = ("Player: " + playerScore);
-        computerScoreBoard.firstChild.nodeValue = ("Computer: " + computerScore);
+        noRoundLimit == true ? roundNumber.textContent = "Unlimited Round: " + round : roundNumber.textContent = "Round: " + round;
+        playerScoreBoard.textContent = "Player: " + playerScore;
+        computerScoreBoard.textContent = "Computer: " + computerScore;
 }
 
 function resetGame() {
