@@ -7,16 +7,17 @@ const info = document.getElementById("info");
 
 info1 = document.createElement('div');
 info1.classList.add("info");
-info1.textContent = `The machines have risen up and overthrown the world!!`;
+info1.textContent = `You awake in a strange house, with no idea how you got there. A shadowy figure appears...`;
 info.appendChild(info1);
 
 info2 = document.createElement('div');
 info2.classList.add("info");
-info2.textContent = `They will only leave if you beat them at a "best of 5" game of rock, paper, scissors.`;
+info2.textContent = `"You may leave if you beat me at a game of rock, paper, scissors. However if you should lose, or even draw... your soul is mine!!"`;
 info.appendChild(info2);
 
 info3 = document.createElement('div');
 info3.classList.add("info");
+info3.style.cssText = `font-size: 15px;` 
 info3.textContent = `Click on "Round" to change from "best of 5" to unlimited`;
 info.appendChild(info3);
 
@@ -80,8 +81,8 @@ function playGame(choice) {
     //if either player has won 3 rounds (best of 5) we want to stop the game
     if (round == 6 && playerScore == computerScore)
         {
-            info1.replaceChildren("You have tied... but there can only be one winner...");
-            info2.replaceChildren("Time to play again?");
+            info1.replaceChildren("You have tied... but that's not good enough...");
+            info2.replaceChildren(`Your soul is forfeit... or is it? "Play again?"`);
             info3.replaceChildren(`Or click on "Round" to play unlimited rounds.`);
             resetGame();  
         }
@@ -94,8 +95,8 @@ function playGame(choice) {
         }
     else if(computerScore == 3 || (round == 6 && computerScore >= playerScore))
         {
-            info1.replaceChildren("The computer has won. Better luck next time."); 
-            info2.replaceChildren("Care to play again?");
+            info1.replaceChildren("You have lost, you feel your soul leaving your body."); 
+            info2.replaceChildren(`As your body grows cold you hear "Care to play again?"`);
             info3.replaceChildren(`Or click on "Round" to play unlimited rounds.`);
             resetGame();  
         }
