@@ -4,7 +4,7 @@
 
 ## Summary
 
-**Hosted:** [rock-paper-scissors Page](https://blurryq.github.io/rock-paper-scissors/)
+**Hosted:** [Rock Paper Scissors](https://blurryq.github.io/rock-paper-scissors/)
 
 A fun and interactive rock-paper-scissors game where you can play against the computer. Choose between a best of 5 rounds or unlimited rounds for a more flexible experience.
 
